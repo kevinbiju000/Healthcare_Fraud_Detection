@@ -1,6 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+// Add this helper function
+const formatMessage = (text) => {
+  // Convert asterisks to bold
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  
+  // Convert dashes at the start of a line to list items
+  text = text.replace(/^- (.+)$/gm, '<li>$1</li>');
+  text = text.replace(/<li>/g, '<ul><li>').replace(/<\/li>(?![\n\r]*<li>)/g, '</li></ul>');
+  
+  // Convert newlines to break tags
+  text = text.replace(/\n/g, '<br>');
+  
+  return text;
+};
+
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -78,12 +94,14 @@ const Chatbot = () => {
   return (
     <div className="chatbot">
       <div className="chat-messages">
-        {messages.map((message, index) => (
-          <div key={index} className={`message ${message.user ? 'user' : 'bot'}`}>
-            {message.text}
-          </div>
-        ))}
-        {isLoading && <div className="message bot">Thinking...</div>}
+      {messages.map((message, index) => (
+        <div 
+          key={index} 
+          className={`message ${message.user ? 'user' : 'bot'}`}
+          dangerouslySetInnerHTML={{ __html: message.user ? message.text : formatMessage(message.text) }}
+           />
+          ))}
+          {isLoading && <div className="message bot">Thinking...</div>}
       </div>
       <div className="chat-input">
         <input
