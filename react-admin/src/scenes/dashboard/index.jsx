@@ -92,7 +92,7 @@ const Dashboard = () => {
         <Box gridColumn="span 8" gridRow="span 2" backgroundColor={colors.primary[400]}>
           <Box mt="25px" p="0 30px" display="flex " justifyContent="space-between" alignItems="center">
             <Box>
-              <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>Revenue Saved</Typography>
+              <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>Per Person Loss In India </Typography>
               <Typography variant="h3" fontWeight="bold" color={colors.greenAccent[500]}>$59,342.32</Typography>
             </Box>
             <Box>
@@ -126,8 +126,8 @@ const Dashboard = () => {
           <Typography variant="h5" fontWeight="600">Fraud Detection Campaign</Typography>
           <Box display="flex" flexDirection="column" alignItems="center" mt="25px">
             <ProgressCircle size="125" />
-            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ mt: "15px" }}>$48,352 revenue saved</Typography>
-            <Typography>Includes extra miscellaneous expenditures and costs</Typography>
+            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ mt: "15px" }}>48,352 Health Loss</Typography>
+            <Typography>Anual Year (2023) India</Typography>
           </Box>
         </Box>
         <Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.primary[400]}>

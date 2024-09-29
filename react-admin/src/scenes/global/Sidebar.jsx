@@ -96,7 +96,7 @@ const Sidebar = ({ username }) => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/pfp.png`}
+                  src={`../../assets/pfp.jpg`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -109,9 +109,7 @@ const Sidebar = ({ username }) => {
             >
               {username || "Guest"} {/* Show username or default text */}
             </Typography>
-            <Typography variant="h5" color={colors.greenAccent[500]}>
-              VP of Healthcare Admin
-            </Typography>
+            
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   VP of Healthcare Admin
                 </Typography>
