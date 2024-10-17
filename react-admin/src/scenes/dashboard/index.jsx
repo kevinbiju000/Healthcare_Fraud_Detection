@@ -14,10 +14,12 @@ import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate(); // Initialize navigate
 
   const downloadPDF = () => {
     const input = document.getElementById('dashboard'); // This is the element to capture
@@ -42,6 +44,11 @@ const Dashboard = () => {
       }
       pdf.save('dashboard.pdf');
     });
+  };
+
+  // Navigate to Fraud Detection page
+  const handleFraudDetectionClick = () => {
+    navigate("/fraud-detection"); // Replace with your actual route for the fraud detection page
   };
 
   return (
@@ -92,7 +99,7 @@ const Dashboard = () => {
         <Box gridColumn="span 8" gridRow="span 2" backgroundColor={colors.primary[400]}>
           <Box mt="25px" p="0 30px" display="flex " justifyContent="space-between" alignItems="center">
             <Box>
-              <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>Per Person Loss In India </Typography>
+              <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>Per Person Loss In India</Typography>
               <Typography variant="h3" fontWeight="bold" color={colors.greenAccent[500]}>$59,342.32</Typography>
             </Box>
             <Box>
@@ -142,6 +149,17 @@ const Dashboard = () => {
             <GeographyChart isDashboard={true} />
           </Box>
         </Box>
+      </Box>
+
+      {/* Button to navigate to Fraud Detection Page */}
+      <Box mt={2} textAlign="center">
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleFraudDetectionClick} // Trigger navigation to fraud detection page
+        >
+          Go to Fraud Detection
+        </Button>
       </Box>
     </Box>
   );

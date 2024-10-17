@@ -20,7 +20,7 @@ function RegisterPage() {
       });
       setMessage(response.data.message);
       if (response.data.message === 'User registered successfully') {
-        setTimeout(() => navigate('/'), 2000);
+        setTimeout(() => navigate('/patient-details'), 2000);
       }
     } catch (error) {
       setMessage('Error registering user: ' + (error.response?.data?.message || error.message));

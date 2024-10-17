@@ -11,22 +11,31 @@ import Line from "./scenes/line";
 import Pie from "./scenes/pie";
 import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, Fab } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
+import PatientDetailsPage from  './components/pages/Patient_details';
+import Chatbot from './scenes/chatbox/Chatbot';
+import ChatIcon from '@mui/icons-material/Chat'; // Import Chat icon
 
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
+  const navigate = useNavigate(); // For navigation
 
   const handleLogin = (username) => {
     setIsAuthenticated(true);
     setUsername(username); // Set the username on login
+  };
+
+  // Navigate to Chatbot page when clicking the chatbot icon
+  const handleChatbotClick = () => {
+    navigate("/Chatbot"); // Navigate to chatbot page
   };
 
   return (
@@ -39,8 +48,9 @@ function App() {
             <Topbar setIsSidebar={setIsSidebar} />
 
             <Routes>
-              <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <LoginPage onLogin={handleLogin} />} />
+              <Route path="/" element={isAuthenticated ? <Navigate to="/patient-details" /> : <LoginPage onLogin={handleLogin} />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/patient-details" element={isAuthenticated ? <PatientDetailsPage /> : <Navigate to="/" />} />
               <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
               <Route path="/team" element={isAuthenticated ? <Team /> : <Navigate to="/" />} />
               <Route path="/contacts" element={isAuthenticated ? <Contacts /> : <Navigate to="/" />} />
@@ -52,7 +62,20 @@ function App() {
               <Route path="/faq" element={isAuthenticated ? <FAQ /> : <Navigate to="/" />} />
               <Route path="/calendar" element={isAuthenticated ? <Calendar /> : <Navigate to="/" />} />
               <Route path="/geography" element={isAuthenticated ? <Geography /> : <Navigate to="/" />} />
+              <Route path="/Chatbot" element={isAuthenticated ? <Chatbot /> : <Navigate to="/" />} />
             </Routes>
+
+            {/* Chatbot floating icon */}
+            {isAuthenticated && (
+              <Fab 
+                color="primary" 
+                aria-label="chat" 
+                style={{ position: 'fixed', bottom: 16, right: 16 }} 
+                onClick={handleChatbotClick}
+              >
+                <ChatIcon />
+              </Fab>
+            )}
           </main>
         </div>
       </ThemeProvider>

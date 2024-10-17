@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './Chatbot.css';
+
 
 // Add this helper function
 const formatMessage = (text) => {
