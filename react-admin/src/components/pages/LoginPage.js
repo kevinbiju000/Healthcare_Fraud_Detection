@@ -19,7 +19,7 @@ function LoginPage({ onLogin }) { // Accept onLogin as a prop
       setLoginMessage(response.data.message);
       if (response.data.success) {
         onLogin(username); // Call onLogin to update the auth state in App.js
-        navigate('/patient-details');
+        navigate('/dashboard');
       }
     } catch (error) {
       setLoginMessage('Error logging in: ' + (error.response?.data?.message || error.message));

@@ -14,21 +14,21 @@ import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const downloadPDF = () => {
-    const input = document.getElementById('dashboard'); // This is the element to capture
+    const input = document.getElementById('dashboard');
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
-      const imgWidth = 190; // Width of the image in PDF
-      const pageHeight = pdf.internal.pageSize.height; // Height of the PDF page
-      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Height of the image
+      const imgWidth = 190;
+      const pageHeight = pdf.internal.pageSize.height;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
       let heightLeft = imgHeight;
 
       let position = 0;
@@ -46,9 +46,8 @@ const Dashboard = () => {
     });
   };
 
-  // Navigate to Fraud Detection page
   const handleFraudDetectionClick = () => {
-    navigate("/fraud-detection"); // Replace with your actual route for the fraud detection page
+    navigate("/patient-details"); 
   };
 
   return (
@@ -75,12 +74,7 @@ const Dashboard = () => {
       </Box>
 
       {/* GRID & CHARTS */}
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
-      >
+      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px">
         {/* ROW 1 */}
         <Box gridColumn="span 3" backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
           <StatBox title="12,361" subtitle="Fraudulent Claims Detected" progress="0.75" increase="+14%" icon={<EmailIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />} />
@@ -97,7 +91,7 @@ const Dashboard = () => {
 
         {/* ROW 2 */}
         <Box gridColumn="span 8" gridRow="span 2" backgroundColor={colors.primary[400]}>
-          <Box mt="25px" p="0 30px" display="flex " justifyContent="space-between" alignItems="center">
+          <Box mt="25px" p="0 30px" display="flex" justifyContent="space-between" alignItems="center">
             <Box>
               <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>Per Person Loss In India</Typography>
               <Typography variant="h3" fontWeight="bold" color={colors.greenAccent[500]}>$59,342.32</Typography>
@@ -151,12 +145,12 @@ const Dashboard = () => {
         </Box>
       </Box>
 
-      {/* Button to navigate to Fraud Detection Page */}
+      {/* Button to navigate to Patient Details Page */}
       <Box mt={2} textAlign="center">
         <Button
           variant="contained"
           color="secondary"
-          onClick={handleFraudDetectionClick} // Trigger navigation to fraud detection page
+          onClick={handleFraudDetectionClick}
         >
           Go to Fraud Detection
         </Button>
