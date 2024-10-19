@@ -14,7 +14,7 @@ import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider, Fab } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import PatientDetailsPage from  './components/pages/Patient_details';
@@ -39,6 +39,7 @@ function App() {
   };
 
   return (
+  
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -48,7 +49,7 @@ function App() {
             <Topbar setIsSidebar={setIsSidebar} />
 
             <Routes>
-              <Route path="/" element={isAuthenticated ? <Navigate to="/patient-details" /> : <LoginPage onLogin={handleLogin} />} />
+              <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <LoginPage onLogin={handleLogin} />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/patient-details" element={isAuthenticated ? <PatientDetailsPage /> : <Navigate to="/" />} />
               <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
@@ -80,6 +81,7 @@ function App() {
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
+    
   );
 }
 
