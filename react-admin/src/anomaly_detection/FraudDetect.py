@@ -6,29 +6,32 @@ from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
-# Load your dataset (replace 'your_data.csv' with your actual data file)
-data = pd.read_csv(r'C:\Users\Kevin\Desktop\H1_Projects\react-admin\src\anomaly_detection\insurance_claims.csv')
+# Load your dataset
+data = pd.read_csv(r'C:\Users\Kevin\Desktop\H1_Projects\react-admin\src\anomaly_detection\healthcare_dataset.csv')
 
 # Features to use for anomaly detection
 features = [
-    'months_as_customer', 'age', 'policy_number', 'policy_bind_date', 'policy_state',
-    'policy_csl', 'policy_deductable', 'policy_annual_premium', 'umbrella_limit',
-    'insured_zip', 'insured_sex', 'insured_education_level', 'insured_occupation',
-    'insured_hobbies', 'insured_relationship', 'capital-gains', 'capital-loss',
-    'incident_date', 'incident_type', 'collision_type', 'incident_severity',
-    'authorities_contacted', 'incident_state', 'incident_city', 'incident_location',
-    'incident_hour_of_the_day', 'number_of_vehicles_involved', 'property_damage',
-    'bodily_injuries', 'witnesses', 'police_report_available', 'total_claim_amount',
-    'injury_claim', 'property_claim', 'vehicle_claim', 'auto_make', 'auto_model',
-    'auto_year', 'fraud_reported'
+    'Name', 'Age', 'Gender', 'Blood Type', 'Medical Condition', 'Date of Admission',
+    'Doctor', 'Hospital', 'Insurance Provider', 'Billing Amount', 'Room Number',
+    'Admission Type', 'Discharge Date', 'Medication', 'Test Results'
 ]
 
 # Select relevant features from the dataset
 X = data[features]
 
+# Convert date features to datetime format
+X['Date of Admission'] = pd.to_datetime(X['Date of Admission'], errors='coerce')
+X['Discharge Date'] = pd.to_datetime(X['Discharge Date'], errors='coerce')
+
 # Preprocessing: Handle missing values and encode categorical variables
 numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
 categorical_features = X.select_dtypes(include=['object']).columns.tolist()
+
+# Adjust features like 'Billing Amount' or 'Room Number' if they are stored as strings
+if 'Billing Amount' in categorical_features:
+    X['Billing Amount'] = pd.to_numeric(X['Billing Amount'], errors='coerce')
+    numeric_features.append('Billing Amount')
+    categorical_features.remove('Billing Amount')
 
 # Define preprocessing steps
 numeric_transformer = Pipeline(steps=[
@@ -66,10 +69,10 @@ anomalous_data = data[data['anomaly'] == -1]
 # Add a description for why they are anomalies
 def explain_anomaly(row):
     explanations = []
-    if row['total_claim_amount'] > data['total_claim_amount'].mean() + 3 * data['total_claim_amount'].std():
-        explanations.append("Total claim amount significantly higher than average.")
-    if row['number_of_vehicles_involved'] > 2:
-        explanations.append("Involves more than two vehicles, which is unusual.")
+    if row['Billing Amount'] > data['Billing Amount'].mean() + 3 * data['Billing Amount'].std():
+        explanations.append("Billing amount significantly higher than average.")
+    if (pd.to_datetime(row['Discharge Date']) - pd.to_datetime(row['Date of Admission'])).days > 30:
+        explanations.append("Long duration of hospital stay.")
     # Add more conditions based on your analysis
     return '; '.join(explanations) if explanations else "No specific reason."
 
@@ -77,7 +80,7 @@ anomalous_data['explanation'] = anomalous_data.apply(explain_anomaly, axis=1)
 
 # Output results
 print("Detected anomalies:")
-print(anomalous_data[['total_claim_amount', 'explanation']])
+print(anomalous_data[['Billing Amount', 'explanation']])
 
 # Save the results for visualization in CSV format
 anomalous_data.to_csv(r'C:\Users\Kevin\Desktop\H1_Projects\react-admin\src\anomaly_detection\anomalous_patients_with_explanation.csv', index=False)
