@@ -17,29 +17,34 @@ import Calendar from "./scenes/calendar/calendar";
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
-import PatientDetailsPage from  './components/pages/Patient_details';
+import PatientDetailsPage from './components/pages/Patient_details';
 import Chatbot from './scenes/chatbox/Chatbot';
-import ChatIcon from '@mui/icons-material/Chat'; // Import Chat icon
+import ChatIcon from '@mui/icons-material/Chat';
 
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
-  const navigate = useNavigate(); // For navigation
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = (username) => {
     setIsAuthenticated(true);
-    setUsername(username); // Set the username on login
+    setUsername(username);
   };
 
-  // Navigate to Chatbot page when clicking the chatbot icon
+  // Toggle chatbot visibility
   const handleChatbotClick = () => {
-    navigate("/Chatbot"); // Navigate to chatbot page
+    setIsChatbotOpen(prev => !prev);
+  };
+
+  // Close chatbot function
+  const handleCloseChatbot = () => {
+    setIsChatbotOpen(false); // Set chatbot open state to false
   };
 
   return (
-  
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -63,11 +68,13 @@ function App() {
               <Route path="/faq" element={isAuthenticated ? <FAQ /> : <Navigate to="/" />} />
               <Route path="/calendar" element={isAuthenticated ? <Calendar /> : <Navigate to="/" />} />
               <Route path="/geography" element={isAuthenticated ? <Geography /> : <Navigate to="/" />} />
-              <Route path="/Chatbot" element={isAuthenticated ? <Chatbot /> : <Navigate to="/" />} />
             </Routes>
 
-            {/* Chatbot floating icon */}
-            {isAuthenticated && (
+            {/* Conditionally render Chatbot component */}
+            {isChatbotOpen && <Chatbot onClose={handleCloseChatbot} />}
+
+            {/* Chatbot floating icon, only visible when chatbot is closed */}
+            {isAuthenticated && !isChatbotOpen && (
               <Fab 
                 color="primary" 
                 aria-label="chat" 
@@ -81,7 +88,6 @@ function App() {
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
-    
   );
 }
 

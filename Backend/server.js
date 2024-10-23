@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // MongoDB Atlas connection string
-const uri = 'mongodb+srv://kevinbiju000:mitwpuproject@cluster0.juc3gzl.mongodb.net/'; // Replace with your database name
+const uri = 'mongodb+srv://kevinbiju000:bijujoseph12345@cluster0.juc3gzl.mongodb.net/'; // Replace with your database name
 
 mongoose.connect(uri, {
   useNewUrlParser: true,

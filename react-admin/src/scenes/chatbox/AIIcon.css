@@ -1,15 +1,12 @@
-/* AIIcon.css */
-.ai-icon {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    cursor: pointer;
-    width: 50px; /* Adjust size as needed */
-    height: 50px; /* Adjust size as needed */
-  }
-  
-  .ai-icon img {
-    width: 100%;
-    height: auto;
-  }
-  
+/* App.css */
+.app-container {
+  position: relative;
+}
+
+.dashboard {
+  padding: 20px;
+  background-color: #f4f4f9;
+  min-height: 500px; /* Ensure it has a minimum height */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
